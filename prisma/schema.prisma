@@ -8,8 +8,39 @@ datasource db {
 }
 
 model User {
-    user_id String @id @default(uuid())
-    email String @unique
-    name String
-    username String
-    }
+  id       String         @id @default(uuid())
+  email    String         @unique
+  name     String
+  username String
+  orders   OrderHistory[]
+}
+
+model Item {
+  id        String         @id
+  seller_id String
+  name      String
+  category  String
+  price     Float
+  image_url String
+  seller    Seller         @relation(fields: [seller_id], references: [id])
+  orders    OrderHistory[]
+}
+
+model Seller {
+  id     String         @id @default(uuid())
+  name   String
+  logo   String
+  items  Item[]
+  orders OrderHistory[]
+}
+
+model OrderHistory {
+  id          String   @id @default(uuid())
+  customer    User     @relation(fields: [customer_id], references: [id])
+  customer_id String
+  seller      Seller   @relation(fields: [seller_id], references: [id])
+  seller_id   String
+  item        Item     @relation(fields: [item_id], references: [id])
+  item_id     String
+  timestamp   DateTime @default(now())
+}
