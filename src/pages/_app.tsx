@@ -4,11 +4,18 @@ import { loggerLink } from "@trpc/client/links/loggerLink";
 import { withTRPC } from "@trpc/next";
 import type { AppType } from "next/dist/shared/lib/utils";
 import superjson from "superjson";
+import NavBar from "../components/layout/navbar";
 import type { AppRouter } from "../server/router";
 import "../styles/globals.css";
 
 const MyApp: AppType = ({ Component, pageProps }) => {
-  return <Component {...pageProps} />;
+
+  return (
+    <>
+      <NavBar />
+      <Component {...pageProps} />
+    </>
+  );
 };
 
 const getBaseUrl = () => {
