@@ -49,16 +49,17 @@ const NavBar = () => {
       <header className={`fixed w-full transition duration-500 ease-out t-0 l-0 z-[9999] drop-shadow bg-white ${opacity}`}>
         <div className={`container flex flex-wrap items-center mx-10 py-5`}>
           <a href="#" className="flex items-center text-xl tracking-wider justify"><p className="text-black">Some</p><p className="text-rose-600">Comp</p></a>
-          <nav className="block pl-20">
+          <nav className="block pl-10">
             <ul className="flex flex-row px-5 py-2">
               <NavItem title="Home" isFocus={true} />
               <NavItem title="Products" />
               <NavItem title="Promotions" />
               <NavItem title="About" />
+              <button className="btn btn-primary bg-rose-200 mx-3 px-3 rounded-md text-lg  text-rose-700">Cart</button>
             </ul>
           </nav>
         </div>
-      </header>
+      </header >
     </>
   )
 }

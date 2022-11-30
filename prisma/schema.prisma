@@ -20,7 +20,7 @@ model Item {
   seller_id String
   name      String
   category  String
-  price     Float
+  price     String
   image_url String
   seller    Seller         @relation(fields: [seller_id], references: [id])
   orders    OrderHistory[]
