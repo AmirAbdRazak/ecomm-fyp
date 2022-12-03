@@ -1,24 +1,24 @@
 import React from 'react'
+import { prisma } from "../../server/db/client";
 
-const Product = ({ title }: { title: string }) => {
+const Product = ({ product }: { product: product }) => {
   return (
 
     <a href="#" className="group">
       <div className="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-w-7 xl:aspect-h-8">
-        <img src="https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-01.jpg"
-          alt="Tall slender porcelain bottle with nattaiural clay textured body and cork stopper."
+        <img src={product.image_url}
+          alt={product.name}
           className="h-full w-full object-cover object-center group-hover:opacity-75" />
       </div>
-      <h3 className="mt-4 text-sm text-gray-700">{title}</h3>
-      <p className="mt-1 text-lg font-medium text-gray-900">$48</p>
+      <h3 className="mt-4 text-sm text-gray-700">{product.name}</h3>
+      <p className="mt-1 text-lg font-medium text-gray-900">{product.price}</p>
     </a>
 
   )
 
 }
 
-const ProductList = () => {
-  const temp = ["waw", "wpa", "woa", "wawaw"]
+const ProductList = ({ products }: { products: product[] }) => {
 
   return (
 
@@ -29,7 +29,17 @@ const ProductList = () => {
         <div className="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
 
           {
-            temp.map(title => <Product title={title} />)
+            products.map(prod => {
+              if (prod.price != "Out of Stock" && prod.price != "0.0") {
+                return (
+                  <Product
+                    key={prod.id}
+                    product={prod}
+                  />
+                )
+              }
+            }
+            )
           }
 
         </div>
@@ -37,7 +47,17 @@ const ProductList = () => {
     </div>
   )
 }
-const Products = () => {
+
+type product = {
+  "seller_id": string,
+  "category": string,
+  "id": string,
+  "image_url": string,
+  "name": string,
+  "price": string
+}
+
+const Products = ({ products }: { products: product[] }) => {
   const categories = ["Phone", "Tablets", "Desktops", "Laptops", "Accessories", "Tools", "Others"];
   return (
     <>
@@ -57,10 +77,24 @@ const Products = () => {
           }
         </div>
         <div>
-          <ProductList />
+          <ProductList
+            products={products}
+          />
         </div>
       </div>
     </>
   )
 }
+
+export async function getStaticProps() {
+  const products = await prisma.item.findMany();
+
+  return {
+    props: {
+      products,
+    },
+    revalidate: 120, // In seconds
+  }
+}
+
 export default Products
