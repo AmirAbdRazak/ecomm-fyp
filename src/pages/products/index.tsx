@@ -48,14 +48,6 @@ const ProductList = ({ products }: { products: product[] }) => {
   )
 }
 
-type product = {
-  "seller_id": string,
-  "category": string,
-  "id": string,
-  "image_url": string,
-  "name": string,
-  "price": string
-}
 
 const Products = ({ products }: { products: product[] }) => {
   const categories = ["Phone", "Tablets", "Desktops", "Laptops", "Accessories", "Tools", "Others"];
