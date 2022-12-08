@@ -26,7 +26,7 @@ const Product = ({ prod }: { prod: product }) => {
                         </div>
                     </div>
 
-                    <button type="submit" className="my-auto flex w-full h-20 items-center justify-center rounded-md border border-transparent bg-rose-600 py-3 px-8 text-base font-medium text-white hover:bg-rose-700 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:ring-offset-2">Add to cart</button>
+                    <button type="submit" className="my-auto flex w-full h-20 items-center justify-center rounded-md border border-transparent bg-rose-600 py-3 px-8 text-base font-medium text-white hover:bg-rose-700 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:ring-offset-2">Add to bag</button>
                 </div>
 
                 <div className="py-10 lg:col-span-2 lg:col-start-1 lg:border-r mx-6 lg:border-gray-200 lg:pt-6 lg:pb-16 lg:pr-8">
