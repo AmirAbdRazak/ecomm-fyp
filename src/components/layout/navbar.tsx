@@ -1,15 +1,16 @@
-import React, { useEffect, useState } from 'react'
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import Link from 'next/link';
 
 const NavItem = ({ title, isFocus = false }: { title: string, isFocus?: boolean }) => {
   return (
-    <li>
-      <a className={`block px-4 text-lg ${!isFocus && 'font-light'} ${isFocus && 'text-rose-600'}`} href="#">{title}</a>
+    <li className={`block px-4 text-lg ${!isFocus && 'font-light'} ${isFocus && 'text-rose-600'}`}>
+      <Link href={`/${title == "Home" ? "" : title.toLowerCase()}`} >{title}</Link>
     </li>
   )
 }
 
 
-const NavBar = () => {
+const NavBar = ({ setOpen }: { setOpen: Dispatch<SetStateAction<boolean>> }) => {
 
   const [opacity, setOpacity] = useState("bg-opacity-0");
 
@@ -46,7 +47,7 @@ const NavBar = () => {
 
   return (
     <>
-      <header className={`fixed w-full transition duration-500 ease-out t-0 l-0 z-[9999] drop-shadow bg-white ${opacity}`}>
+      <header className={`fixed w-full transition duration-500 ease-out t-0 l-0 z-[20] drop-shadow bg-white ${opacity}`}>
         <div className={`container flex flex-wrap items-center mx-10 py-5`}>
           <a href="#" className="flex items-center text-xl tracking-wider justify"><p className="text-black">Some</p><p className="text-rose-600">Comp</p></a>
           <nav className="block pl-10">
@@ -55,7 +56,7 @@ const NavBar = () => {
               <NavItem title="Products" />
               <NavItem title="Promotions" />
               <NavItem title="About" />
-              <button className="btn btn-primary bg-rose-200 mx-3 px-3 rounded-md text-lg  text-rose-700">Cart</button>
+              <button className="btn btn-primary bg-rose-200 mx-3 px-3 rounded-md text-lg  text-rose-700" onClick={() => setOpen(true)}>Cart</button>
             </ul>
           </nav>
         </div>

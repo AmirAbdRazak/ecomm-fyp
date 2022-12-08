@@ -1,9 +1,9 @@
-// import prodDetail from './product_details.json'
+import prodDetail from './product_details.json'
 
-// import type { NextApiRequest, NextApiResponse } from "next";
-// import { prisma } from "../../server/db/client";
+import type { NextApiRequest, NextApiResponse } from "next";
+import { prisma } from "../../server/db/client";
 
-// const upload = async (req: NextApiRequest, res: NextApiResponse) => {
+const upload = async (req: NextApiRequest, res: NextApiResponse) => {
 // //   const item = await prisma.Item.findMany();
 
 //   prodDetail.forEach( async(prod) => {
@@ -14,7 +14,8 @@
 //     console.log("Uploaded Item" + prod.id);
 //   })
 
-//   res.status(200).json("Items succesfully uploaded");
-// };
+//   res.status(200).json("Items succesfullyn uploaded");
+    res.status(200).json("Api has been temporarily paused");
+};
 
-// // export default upload;
+export default upload;

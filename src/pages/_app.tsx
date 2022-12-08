@@ -5,14 +5,18 @@ import { withTRPC } from "@trpc/next";
 import type { AppType } from "next/dist/shared/lib/utils";
 import superjson from "superjson";
 import NavBar from "../components/layout/navbar";
+import Cart from "../components/layout/cart";
 import type { AppRouter } from "../server/router";
 import "../styles/globals.css";
+import { useState } from "react";
 
 const MyApp: AppType = ({ Component, pageProps }) => {
+  const [cartState, setCartState] = useState(false);
 
   return (
     <>
-      <NavBar />
+      <Cart setOpen={setCartState} open={cartState} />
+      <NavBar setOpen={setCartState} />
       <Component {...pageProps} />
     </>
   );
