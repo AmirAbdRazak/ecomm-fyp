@@ -1,5 +1,6 @@
 import { Dispatch, Fragment, SetStateAction, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
+import { prisma } from "../../server/db/client";
 
 const products = [
     {
@@ -26,7 +27,18 @@ const products = [
     // More products...
 ]
 
+const getCart = async () => {
+
+    const cart = await prisma.orderHistory.findMany({
+        where: {
+            id: "123456",
+        }
+    })
+
+}
+
 export default function Cart({ setOpen, open }: { setOpen: Dispatch<SetStateAction<boolean>>, open: boolean }) {
+
 
     return (
         <Transition.Root show={open} as={Fragment}>
