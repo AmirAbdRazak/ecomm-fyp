@@ -42,5 +42,6 @@ model OrderHistory {
   seller_id   String
   item        Item     @relation(fields: [item_id], references: [id])
   item_id     String
+  status      String
   timestamp   DateTime @default(now())
 }

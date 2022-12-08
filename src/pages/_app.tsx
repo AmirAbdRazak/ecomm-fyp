@@ -3,16 +3,21 @@ import { httpBatchLink } from "@trpc/client/links/httpBatchLink";
 import { loggerLink } from "@trpc/client/links/loggerLink";
 import { withTRPC } from "@trpc/next";
 import type { AppType } from "next/dist/shared/lib/utils";
+import { useState } from "react";
 import superjson from "superjson";
+import Cart from "../components/layout/cart";
 import NavBar from "../components/layout/navbar";
 import type { AppRouter } from "../server/router";
 import "../styles/globals.css";
 
 const MyApp: AppType = ({ Component, pageProps }) => {
 
+  const [cartState, setCartState] = useState(false);
+
   return (
     <>
-      <NavBar />
+      <Cart setOpen={setCartState} open={cartState} />
+      <NavBar setOpen={setCartState} />
       <Component {...pageProps} />
     </>
   );
