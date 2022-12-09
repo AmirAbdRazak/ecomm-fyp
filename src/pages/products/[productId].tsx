@@ -3,7 +3,7 @@ import { GetStaticPropsContext } from 'next/types';
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import { prisma } from "../../server/db/client";
 
-const uploadCart = (item_id: string, seller_id: string, setAlert: Dispatch<SetStateAction<string>>) => {
+const uploadCart = (item_id: string, seller_id: string, setRender: Dispatch<SetStateAction<boolean>>) => {
     const obj = {
         item_id: item_id,
         seller_id: seller_id
@@ -15,13 +15,12 @@ const uploadCart = (item_id: string, seller_id: string, setAlert: Dispatch<SetSt
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(obj),
-    }).then(res => Router.push(`/products`))
+    }).then(res => { setRender(true) })
 
 }
 
-const Product = ({ prod }: { prod: product }) => {
+const Product = ({ prod, setRender }: { prod: product, setRender: Dispatch<SetStateAction<boolean>> }) => {
 
-    const [alert, setAlert] = useState("");
 
     return (
         <div className="bg-white">
@@ -45,14 +44,12 @@ const Product = ({ prod }: { prod: product }) => {
                         </div>
                     </div>
 
-                    <button onClick={() => uploadCart(prod.id, prod.seller_id, setAlert)} className="my-auto flex w-full h-20 items-center justify-center rounded-md border border-transparent bg-rose-600 py-3 px-8 text-base font-medium 
+                    <button onClick={() => uploadCart(prod.id, prod.seller_id, setRender)} className="my-auto flex w-full h-20 items-center justify-center rounded-md border border-transparent bg-rose-600 py-3 px-8 text-base font-medium 
                     text-white hover:bg-rose-700 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:ring-offset-2" >
                         Add to bag
                     </button>
                 </div>
 
-                {alert && alert
-                }
                 <div className="py-10 lg:col-span-2 lg:col-start-1 lg:border-r mx-6 lg:border-gray-200 lg:pt-6 lg:pb-16 lg:pr-8">
                     <div>
                         <h3 className="sr-only">Description</h3>

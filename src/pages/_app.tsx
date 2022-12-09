@@ -13,12 +13,13 @@ import "../styles/globals.css";
 const MyApp: AppType = ({ Component, pageProps }) => {
 
   const [cartState, setCartState] = useState(false);
+  const [render, setRender] = useState(true);
 
   return (
     <>
-      <Cart setOpen={setCartState} open={cartState} />
+      <Cart setOpen={setCartState} open={cartState} setRender={setRender} render={render} />
       <NavBar setOpen={setCartState} />
-      <Component {...pageProps} />
+      <Component {...pageProps} setRender={setRender} />
     </>
   );
 };

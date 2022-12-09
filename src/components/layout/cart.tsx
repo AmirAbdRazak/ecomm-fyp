@@ -101,19 +101,25 @@ const CartDialog = ({ prods, setOpen }: { prods: getCartRes[], setOpen: Dispatch
     )
 }
 
-export default function Cart({ setOpen, open }: { setOpen: Dispatch<SetStateAction<boolean>>, open: boolean }) {
+export default function Cart({ setOpen, open, setRender, render }:
+    { setOpen: Dispatch<SetStateAction<boolean>>, open: boolean, setRender: Dispatch<SetStateAction<boolean>>, render: boolean }) {
     const [products, setProducts] = useState<getCartRes[]>();
     const [isLoading, setLoading] = useState(false)
 
     useEffect(() => {
         setLoading(true)
-        fetch('/api/manageCart')
-            .then((res) => res.json())
-            .then((data) => {
-                setProducts(data);
-                setLoading(false)
-            })
-    }, [])
+        if (render) {
+            fetch('/api/manageCart')
+                .then((res) => res.json())
+                .then((data) => {
+                    setProducts(data);
+                    setLoading(false)
+                })
+
+            setRender(false);
+        }
+
+    }, [render])
 
     return (
         < Transition.Root show={open} as={Fragment}>
