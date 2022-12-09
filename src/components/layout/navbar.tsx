@@ -48,7 +48,7 @@ const NavBar = ({ setOpen }: { setOpen: Dispatch<SetStateAction<boolean>> }) => 
     <>
       <header className={`fixed w-full transition duration-500 ease-out t-0 l-0 z-[20] drop-shadow bg-white ${opacity}`}>
         <div className={`container flex flex-wrap items-center mx-10 py-5`}>
-          <a href="#" className="flex items-center text-xl tracking-wider justify"><p className="text-black">Some</p><p className="text-rose-600">Comp</p></a>
+          <a href="#" className="flex items-center text-xl tracking-wider justify"><p className="text-black">IREX</p><p className="text-rose-600">MSU</p></a>
           <nav className="block pl-10">
             <ul className="flex flex-row px-5 py-2">
               <NavItem title="Home" isFocus={true} />
