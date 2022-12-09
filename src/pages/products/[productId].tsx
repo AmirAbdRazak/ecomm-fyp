@@ -40,7 +40,7 @@ const Product = ({ prod, setRender }: { prod: product, setRender: Dispatch<SetSt
 
                         <div className="mt-4 lg:col-span-3">
                             <h2 className="sr-only">Product information</h2>
-                            <p className="text-3xl tracking-tight text-gray-900">${prod.price}</p>
+                            <p className="text-3xl tracking-tight text-gray-900">${prod.price == "Out of Stock" || prod.price == "0.0" ? "4.99" : prod.price}</p>
                         </div>
                     </div>
 

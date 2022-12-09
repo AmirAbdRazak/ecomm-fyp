@@ -62,7 +62,7 @@ const CartDialog = ({ prods, setOpen, setRender }: { prods: getCartRes[], setOpe
                                             <img
                                                 src={image_url}
                                                 alt={name}
-                                                className="h-full w-full object-cover object-center"
+                                                className="h-full w-full object-contain p-2 object-center"
                                             />
                                         </div>
 
@@ -72,7 +72,7 @@ const CartDialog = ({ prods, setOpen, setRender }: { prods: getCartRes[], setOpe
                                                     <h3>
                                                         <Link href={`/products/${id}`}>{name.trim().length < 45 ? name.trim() : name.trim().substring(0, 45) + "..."}</Link>
                                                     </h3>
-                                                    <p className="text-rose-500 text-lg ml-4">{"$" + price}</p>
+                                                    <p className="text-rose-500 text-lg ml-4"> ${price == "Out of Stock" || price == "0.0" ? "4.99" : price}</p>
                                                 </div>
                                             </div>
                                             <div className="flex flex-1 items-end justify-between text-sm">

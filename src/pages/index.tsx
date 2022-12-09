@@ -71,7 +71,7 @@ const HeroSection = () => {
 const Cards = ({ title, price, rating, imageURL }: { title: string, price: number, rating: number, imageURL: string }) => {
     return (
 
-        <div className="w-full max-w-sm bg-gray-100 rounded-lg shadow-md">
+        <div className="w-full max-w-sm bg-white rounded-lg shadow-md">
             <a href="#">
                 <img className="p-8 rounded-t-lg" src={imageURL} height="200" width="200" alt="product image" />
             </a>
@@ -104,7 +104,7 @@ const Home: NextPage = () => {
         <>
             <HeroSection />
 
-            <section className="bg-rose-100">
+            <section className="bg-gray-100">
                 <div className="flex flex-row items-center pt-10 pl-10 space-x-5">
                     <h1 className="text-3xl font-semibold">Recommended Products</h1>
                     <button className="btn btn-primary bg-rose-700 rounded-md px-3 py-1 text-white shadow">
