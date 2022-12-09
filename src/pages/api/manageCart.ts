@@ -12,6 +12,7 @@ const manageCart = async (req: NextApiRequest, res: NextApiResponse) => {
                     status: "In cart",
                 },
                 select: {
+                    id: true,
                     item: {
                         select: {
                             id: true,
@@ -26,7 +27,7 @@ const manageCart = async (req: NextApiRequest, res: NextApiResponse) => {
             break;
 
         case "POST":
-            const {item_id, seller_id} = req.body;
+            const { item_id, seller_id } = req.body;
             const toCart = await prisma.orderHistory.create({
                 data: {
                     item_id: item_id,
@@ -36,11 +37,26 @@ const manageCart = async (req: NextApiRequest, res: NextApiResponse) => {
                 }
             });
 
-            
+
             res.status(200).json(toCart);
             break;
-        
-        default: 
+
+        case "DELETE":
+            const { order_id } = req.body;
+            const removeCart = await prisma.orderHistory.update({
+                where: {
+                    id: order_id,
+                },
+                data: {
+                    status: 'Removed From Cart',
+                },
+            });
+
+            res.status(200).json(removeCart);
+            break;
+
+
+        default:
             res.status(200).send("This page does not exist I fear");
 
 

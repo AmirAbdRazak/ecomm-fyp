@@ -3,10 +3,23 @@ import { Dialog, Transition } from '@headlessui/react'
 import Link from 'next/link';
 
 type getCartRes = {
+    id: string
     item: product
 }
 
-const CartDialog = ({ prods, setOpen }: { prods: getCartRes[], setOpen: Dispatch<SetStateAction<boolean>> }) => {
+const removeItem = (order_id: string, setRender: Dispatch<SetStateAction<boolean>>) => {
+    fetch('/api/manageCart', {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ order_id: order_id }),
+    }).then(res => { setRender(true) })
+
+
+}
+
+const CartDialog = ({ prods, setOpen, setRender }: { prods: getCartRes[], setOpen: Dispatch<SetStateAction<boolean>>, setRender: Dispatch<SetStateAction<boolean>> }) => {
     return (
         <div className="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
             <div className="flex-1 overflow-y-auto py-6 px-4 sm:px-6">
@@ -28,8 +41,8 @@ const CartDialog = ({ prods, setOpen }: { prods: getCartRes[], setOpen: Dispatch
                 <div className="mt-8">
                     <div className="flow-root">
                         <ul role="list" className="-my-6 divide-y divide-gray-200">
-                            {prods && prods.map((item) => {
-                                const { id, name, image_url, price } = item.item;
+                            {prods && prods.map(order => {
+                                const { id, name, image_url, price } = order.item;
                                 return (
                                     < li key={id} className="flex py-6" >
                                         <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
@@ -54,6 +67,7 @@ const CartDialog = ({ prods, setOpen }: { prods: getCartRes[], setOpen: Dispatch
                                                     <button
                                                         type="button"
                                                         className="font-medium text-rose-600 hover:text-rose-500"
+                                                        onClick={() => removeItem(order.id, setRender)}
                                                     >
                                                         Remove
                                                     </button>
@@ -68,10 +82,10 @@ const CartDialog = ({ prods, setOpen }: { prods: getCartRes[], setOpen: Dispatch
                 </div>
             </div>
 
-            <div className="border-t border-gray-200 py-6 px-4 sm:px-6">
+            <div className="border-t border-gray-200 py-6 px-4 sm:px-6 ">
                 <div className="flex justify-between text-base font-medium text-gray-900">
                     <p>Subtotal</p>
-                    <p>$tesnhtehn</p>
+                    <p>$Free</p>
                 </div>
                 <p className="mt-0.5 text-sm text-gray-500">Shipping and taxes calculated at checkout.</p>
                 <div className="mt-6">
@@ -104,20 +118,18 @@ const CartDialog = ({ prods, setOpen }: { prods: getCartRes[], setOpen: Dispatch
 export default function Cart({ setOpen, open, setRender, render }:
     { setOpen: Dispatch<SetStateAction<boolean>>, open: boolean, setRender: Dispatch<SetStateAction<boolean>>, render: boolean }) {
     const [products, setProducts] = useState<getCartRes[]>();
-    const [isLoading, setLoading] = useState(false)
 
     useEffect(() => {
-        setLoading(true)
         if (render) {
             fetch('/api/manageCart')
                 .then((res) => res.json())
                 .then((data) => {
                     setProducts(data);
-                    setLoading(false)
                 })
 
             setRender(false);
         }
+
 
     }, [render])
 
@@ -151,14 +163,12 @@ export default function Cart({ setOpen, open, setRender, render }:
                             >
                                 <Dialog.Panel className="pointer-events-auto w-screen max-w-md">
                                     {
-                                        isLoading ?
-                                            <span className="loader"></span>
-                                            :
-                                            products &&
-                                            <CartDialog
-                                                prods={products}
-                                                setOpen={setOpen}
-                                            />
+                                        products &&
+                                        <CartDialog
+                                            prods={products}
+                                            setOpen={setOpen}
+                                            setRender={setRender}
+                                        />
                                     }
                                 </Dialog.Panel>
                             </Transition.Child>
