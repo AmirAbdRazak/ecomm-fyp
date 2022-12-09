@@ -14,8 +14,21 @@ const removeItem = (order_id: string, setRender: Dispatch<SetStateAction<boolean
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({ order_id: order_id }),
-    }).then(res => { setRender(true) })
+    }).then(res => { setRender(true) });
 
+
+}
+
+const checkoutCart = (orders: getCartRes[], setRender: Dispatch<SetStateAction<boolean>>) => {
+    const order_list = orders.map(order => order.id);
+
+    fetch('/api/checkout', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ order_list: order_list })
+    }).then(res => { setRender(true) });
 
 }
 
@@ -89,12 +102,12 @@ const CartDialog = ({ prods, setOpen, setRender }: { prods: getCartRes[], setOpe
                 </div>
                 <p className="mt-0.5 text-sm text-gray-500">Shipping and taxes calculated at checkout.</p>
                 <div className="mt-6">
-                    <a
-                        href="#"
-                        className="flex items-center justify-center rounded-md border border-transparent bg-rose-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-rose-700"
+                    <button
+                        onClick={() => checkoutCart(prods, setRender)}
+                        className="flex items-center mx-auto w-full justify-center rounded-md border border-transparent bg-rose-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-rose-700"
                     >
                         Checkout
-                    </a>
+                    </button>
                 </div>
                 <div className="mt-6 flex justify-center text-center text-sm text-gray-500">
                     <p>

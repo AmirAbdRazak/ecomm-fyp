@@ -13,6 +13,7 @@ model User {
   name     String
   username String
   orders   OrderHistory[]
+  Invoice  Invoice[]
 }
 
 model Item {
@@ -34,6 +35,16 @@ model Seller {
   orders OrderHistory[]
 }
 
+model Invoice {
+  id           String         @id @default(uuid())
+  customer     User           @relation(fields: [customer_id], references: [id])
+  customer_id  String
+  amount       String
+  paymentType  String
+  timestamp    DateTime       @default(now())
+  OrderHistory OrderHistory[]
+}
+
 model OrderHistory {
   id          String   @id @default(uuid())
   customer    User     @relation(fields: [customer_id], references: [id])
@@ -43,5 +54,7 @@ model OrderHistory {
   item        Item     @relation(fields: [item_id], references: [id])
   item_id     String
   status      String
+  invoice     Invoice? @relation(fields: [invoice_id], references: [id])
+  invoice_id  String?
   timestamp   DateTime @default(now())
 }
