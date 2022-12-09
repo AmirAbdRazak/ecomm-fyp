@@ -1,18 +1,21 @@
+import Link from 'next/link';
 import React from 'react'
 import { prisma } from "../../server/db/client";
 
 const Product = ({ product }: { product: product }) => {
   return (
 
-    <a href="#" className="group">
-      <div className="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-w-7 xl:aspect-h-8">
-        <img src={product.image_url}
-          alt={product.name}
-          className="h-full w-full object-cover object-center group-hover:opacity-75" />
+    <Link href={'/products/' + product.id} className="group">
+      <div>
+        <div className="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-w-7 xl:aspect-h-8">
+          <img src={product.image_url}
+            alt={product.name}
+            className="h-full w-full object-cover object-center group-hover:opacity-75" />
+        </div>
+        <h3 className="mt-4 text-sm text-gray-700">{product.name}</h3>
+        <p className="mt-1 text-lg font-medium text-gray-900">{product.price}</p>
       </div>
-      <h3 className="mt-4 text-sm text-gray-700">{product.name}</h3>
-      <p className="mt-1 text-lg font-medium text-gray-900">{product.price}</p>
-    </a>
+    </Link>
 
   )
 

@@ -1,8 +1,27 @@
+import Router from 'next/router';
 import { GetStaticPropsContext } from 'next/types';
-import React from 'react'
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import { prisma } from "../../server/db/client";
 
+const uploadCart = (item_id: string, seller_id: string, setAlert: Dispatch<SetStateAction<string>>) => {
+    const obj = {
+        item_id: item_id,
+        seller_id: seller_id
+    }
+
+    fetch('/api/manageCart', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(obj),
+    }).then(res => Router.push(`/products`))
+
+}
+
 const Product = ({ prod }: { prod: product }) => {
+
+    const [alert, setAlert] = useState("");
 
     return (
         <div className="bg-white">
@@ -26,9 +45,14 @@ const Product = ({ prod }: { prod: product }) => {
                         </div>
                     </div>
 
-                    <button type="submit" className="my-auto flex w-full h-20 items-center justify-center rounded-md border border-transparent bg-rose-600 py-3 px-8 text-base font-medium text-white hover:bg-rose-700 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:ring-offset-2">Add to bag</button>
+                    <button onClick={() => uploadCart(prod.id, prod.seller_id, setAlert)} className="my-auto flex w-full h-20 items-center justify-center rounded-md border border-transparent bg-rose-600 py-3 px-8 text-base font-medium 
+                    text-white hover:bg-rose-700 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:ring-offset-2" >
+                        Add to bag
+                    </button>
                 </div>
 
+                {alert && alert
+                }
                 <div className="py-10 lg:col-span-2 lg:col-start-1 lg:border-r mx-6 lg:border-gray-200 lg:pt-6 lg:pb-16 lg:pr-8">
                     <div>
                         <h3 className="sr-only">Description</h3>
@@ -45,6 +69,7 @@ const Product = ({ prod }: { prod: product }) => {
                             <p className="text-sm text-gray-600">{prod.name}</p>
                         </div>
                     </div>
+
                 </div>
             </div>
         </div >

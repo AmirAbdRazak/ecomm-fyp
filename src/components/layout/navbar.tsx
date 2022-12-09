@@ -3,7 +3,7 @@ import React, { Dispatch, SetStateAction, useEffect, useState } from 'react'
 const NavItem = ({ title, isFocus = false }: { title: string, isFocus?: boolean }) => {
   return (
     <li>
-      <a className={`block px-4 text-lg ${!isFocus && 'font-light'} ${isFocus && 'text-rose-600'}`} href="#">{title}</a>
+      <a className={`block px-4 text-lg ${!isFocus && 'font-light'} ${isFocus && 'text-rose-600'}`} href={title == "Home" ? "/" : "/" + title.toLowerCase()}>{title}</a>
     </li>
   )
 }
