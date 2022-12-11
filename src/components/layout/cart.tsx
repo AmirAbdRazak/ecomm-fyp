@@ -20,7 +20,7 @@ const removeItem = (order_id: string, setRender: Dispatch<SetStateAction<boolean
 
 }
 
-const checkoutCart = (orders: getCartRes[], setRender: Dispatch<SetStateAction<boolean>>, invRef: string, router: NextRouter) => {
+const checkoutCart = (orders: getCartRes[], setRender: Dispatch<SetStateAction<boolean>>, invRef: string, router: NextRouter, setOpen: Dispatch<SetStateAction<boolean>>) => {
     const order_list = orders.map(order => order.id);
 
 
@@ -31,10 +31,10 @@ const checkoutCart = (orders: getCartRes[], setRender: Dispatch<SetStateAction<b
         },
         body: JSON.stringify({ order_list: order_list, invRef: invRef }),
     }).then(res => {
-        setRender(true);
         return res.json();
     }).then(data => {
-        console.log(data)
+        setRender(true);
+        setOpen(false);
         return router.push(`/invoice/${data.invoice.id}`);
     })
 
@@ -114,7 +114,7 @@ const CartDialog = ({ prods, setOpen, setRender }: { prods: getCartRes[], setOpe
                 <p className="mt-0.5 text-sm text-gray-500">Shipping and taxes calculated at checkout.</p>
                 <div className="mt-6">
                     <button
-                        onClick={() => checkoutCart(prods, setRender, invRef, router)}
+                        onClick={() => checkoutCart(prods, setRender, invRef, router, setOpen)}
                         className="flex items-center mx-auto w-full justify-center rounded-md border border-transparent bg-rose-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-rose-700"
                     >
                         Checkout
