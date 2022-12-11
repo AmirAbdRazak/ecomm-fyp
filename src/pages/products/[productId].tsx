@@ -102,7 +102,7 @@ export async function getStaticProps(context: GetStaticPropsContext<{ productId:
         return {
             props: {
                 prod,
-            }
+            },
         }
     }
     console.log("An error occured");
