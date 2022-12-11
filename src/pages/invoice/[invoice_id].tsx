@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { useRouter } from 'next/router'
+import { GetStaticPropsContext } from 'next'
+
+import { prisma } from "../../server/db/client";
 
 const InvoiceRow = ({ item }: { item: itemType }) => {
     return (
@@ -44,26 +46,7 @@ type invoiceRes = {
 }
 
 
-const Invoice = () => {
-    const [invoiceList, setInvoice] = useState<invoiceRes>();
-    const router = useRouter();
-    const { invoice_id } = router.query
-
-    useEffect(() => {
-        fetch('/api/getInvoice', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ invoice_id: invoice_id }),
-        })
-            .then(res => res.json())
-            .then(data => {
-                console.log(data)
-                setInvoice(data)
-            });
-
-    }, [])
+const Invoice = ({ invoiceList }: { invoiceList: invoiceRes }) => {
 
     return (
         <>
@@ -90,11 +73,6 @@ const Invoice = () => {
                                         <div className="text-sm font-light text-slate-500">
                                             <p className="text-sm font-normal text-slate-700">Invoice ID</p>
                                             <p>{invoiceList?.id}</p>
-
-                                            <p className="mt-2 text-sm font-normal text-slate-700">
-                                                Date of Issue
-                                            </p>
-                                            <p>{invoiceList?.timestamp.toLocaleString().substring(0, 10)}</p>
                                         </div>
                                         <div className="text-sm font-light text-slate-500 pl-10">
                                             <p className="text-sm font-normal text-slate-700">Invoice Reference</p>
@@ -199,4 +177,65 @@ const Invoice = () => {
     )
 }
 
+
+export async function getStaticPaths() {
+    if (process.env.SKIP_BUILD_STATIC_GENERATION) {
+        return {
+            paths: [],
+            fallback: 'false',
+        }
+    }
+
+    const invoice = await prisma.invoice.findMany();
+
+    const paths = invoice.map((invoice) => ({
+        params: { invoice_id: invoice.id },
+    }))
+
+    return { paths, fallback: false }
+}
+
+export async function getStaticProps(context: GetStaticPropsContext<{ invoice_id: string }>) {
+    if (context.params) {
+        const { invoice_id } = context.params;
+        const invoiceList = await prisma.invoice.findFirst({
+            where: {
+                id: invoice_id
+            },
+            select: {
+                id: true,
+                paymentType: true,
+                amount: true,
+                invoice_ref: true,
+                customer: {
+                    select: {
+                        name: true,
+                        email: true
+                    }
+                },
+                OrderHistory: {
+                    select: {
+                        id: true,
+                        item: {
+                            select: {
+                                name: true,
+                                id: true,
+                                image_url: true,
+                                price: true,
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        return {
+            props: {
+                invoiceList,
+            },
+            revalidate: 10
+        }
+    }
+    console.log("An error occured");
+}
 export default Invoice;
