@@ -98,7 +98,6 @@ const Cards = ({ title, price, rating, imageURL }: { title: string, price: numbe
 }
 
 const Home: NextPage = () => {
-    const hello = trpc.useQuery(["example.hello", { text: "from tRPC" }]);
 
     return (
         <>
