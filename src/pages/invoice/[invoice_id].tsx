@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { GetStaticPropsContext } from 'next'
-
+import { GetServerSidePropsContext } from 'next'
 import { prisma } from "../../server/db/client";
 
 const InvoiceRow = ({ item }: { item: itemType }) => {
@@ -73,6 +72,7 @@ const Invoice = ({ invoiceList }: { invoiceList: invoiceRes }) => {
                                         <div className="text-sm font-light text-slate-500">
                                             <p className="text-sm font-normal text-slate-700">Invoice ID</p>
                                             <p>{invoiceList?.id}</p>
+
                                         </div>
                                         <div className="text-sm font-light text-slate-500 pl-10">
                                             <p className="text-sm font-normal text-slate-700">Invoice Reference</p>
@@ -177,27 +177,12 @@ const Invoice = ({ invoiceList }: { invoiceList: invoiceRes }) => {
     )
 }
 
+export async function getServerSideProps(context: GetServerSidePropsContext<{ invoice_id: string }>) {
 
-export async function getStaticPaths() {
-    if (process.env.SKIP_BUILD_STATIC_GENERATION) {
-        return {
-            paths: [],
-            fallback: 'false',
-        }
-    }
-
-    const invoice = await prisma.invoice.findMany();
-
-    const paths = invoice.map((invoice) => ({
-        params: { invoice_id: invoice.id },
-    }))
-
-    return { paths, fallback: false }
-}
-
-export async function getStaticProps(context: GetStaticPropsContext<{ invoice_id: string }>) {
     if (context.params) {
+
         const { invoice_id } = context.params;
+
         const invoiceList = await prisma.invoice.findFirst({
             where: {
                 id: invoice_id
@@ -227,15 +212,16 @@ export async function getStaticProps(context: GetStaticPropsContext<{ invoice_id
                     }
                 }
             }
-        });
+        })
 
         return {
             props: {
                 invoiceList,
-            },
-            revalidate: 10
+            }, // will be passed to the page component as props
         }
+
     }
-    console.log("An error occured");
 }
+
+
 export default Invoice;
