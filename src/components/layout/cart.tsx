@@ -1,7 +1,7 @@
 import { Dispatch, Fragment, SetStateAction, useEffect, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import Link from 'next/link';
-import { NextRouter, useRouter } from 'next/router'
+import Router, { SingletonRouter } from 'next/router'
 
 type getCartRes = {
     id: string
@@ -20,29 +20,29 @@ const removeItem = (order_id: string, setRender: Dispatch<SetStateAction<boolean
 
 }
 
-const checkoutCart = (orders: getCartRes[], setRender: Dispatch<SetStateAction<boolean>>, invRef: string, router: NextRouter, setOpen: Dispatch<SetStateAction<boolean>>) => {
+const checkoutCart = (orders: getCartRes[], setRender: Dispatch<SetStateAction<boolean>>, invRef: string, router: SingletonRouter, setOpen: Dispatch<SetStateAction<boolean>>) => {
     const order_list = orders.map(order => order.id);
 
 
-    fetch('/api/checkout', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ order_list: order_list, invRef: invRef }),
-    }).then(res => {
-        return res.json();
-    }).then(data => {
-        setRender(true);
-        setOpen(false);
-        return router.push(`/invoice/${data.invoice.id}`);
-    })
-
+    if (order_list.length > 0) {
+        fetch('/api/checkout', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ order_list: order_list, invRef: invRef }),
+        }).then(res => {
+            return res.json();
+        }).then(data => {
+            setRender(true);
+            setOpen(false);
+            return router.push(`/invoice/${data.invoice.id}`);
+        })
+    }
 }
 
 const CartDialog = ({ prods, setOpen, setRender }: { prods: getCartRes[], setOpen: Dispatch<SetStateAction<boolean>>, setRender: Dispatch<SetStateAction<boolean>> }) => {
     const [invRef, setInvRef] = useState<string>("");
-    const router = useRouter();
 
     return (
         <div className="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
@@ -114,7 +114,7 @@ const CartDialog = ({ prods, setOpen, setRender }: { prods: getCartRes[], setOpe
                 <p className="mt-0.5 text-sm text-gray-500">Shipping and taxes calculated at checkout.</p>
                 <div className="mt-6">
                     <button
-                        onClick={() => checkoutCart(prods, setRender, invRef, router, setOpen)}
+                        onClick={() => checkoutCart(prods, setRender, invRef, Router, setOpen)}
                         className="flex items-center mx-auto w-full justify-center rounded-md border border-transparent bg-rose-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-rose-700"
                     >
                         Checkout
