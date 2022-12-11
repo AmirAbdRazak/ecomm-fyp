@@ -1,5 +1,6 @@
 import { Date } from 'mongoose'
 import React, { useEffect, useState } from 'react'
+import { useRouter } from 'next/router'
 
 const InvoiceRow = ({ item }: { item: itemType }) => {
     return (
@@ -32,6 +33,7 @@ type invoiceRes = {
     timestamp: Date,
     paymentType: string,
     amount: string,
+    invoice_ref: string,
     customer: {
         name: string,
         email: string
@@ -45,6 +47,8 @@ type invoiceRes = {
 
 const Invoice = () => {
     const [invoiceList, setInvoice] = useState<invoiceRes>();
+    const router = useRouter();
+    const { invoice_id } = router.query
 
     useEffect(() => {
         fetch('/api/getInvoice', {
@@ -52,7 +56,7 @@ const Invoice = () => {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ invoice_id: "18e21617-b42a-44ae-895f-885bb6a82ef3" }),
+            body: JSON.stringify({ invoice_id: invoice_id }),
         })
             .then(res => res.json())
             .then(data => {
@@ -92,6 +96,10 @@ const Invoice = () => {
                                                 Date of Issue
                                             </p>
                                             <p>{invoiceList?.timestamp.toLocaleString().substring(0, 10)}</p>
+                                        </div>
+                                        <div className="text-sm font-light text-slate-500 pl-10">
+                                            <p className="text-sm font-normal text-slate-700">Invoice Reference</p>
+                                            <p>{invoiceList?.invoice_ref}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -187,7 +195,7 @@ const Invoice = () => {
                         </div>
                     </article>
                 </div>
-            </section>
+            </section >
         </>
     )
 }

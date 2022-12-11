@@ -42,6 +42,7 @@ model Invoice {
   amount       String
   paymentType  String
   timestamp    DateTime       @default(now())
+  invoice_ref  String?
   OrderHistory OrderHistory[]
 }
 

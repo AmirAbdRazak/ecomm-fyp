@@ -16,6 +16,7 @@ const getInvoice = async (req: NextApiRequest, res: NextApiResponse) => {
                 timestamp: true,
                 paymentType: true,
                 amount: true,
+                invoice_ref: true,
                 customer: {
                     select: {
                         name: true,

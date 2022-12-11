@@ -102,8 +102,7 @@ export async function getStaticProps(context: GetStaticPropsContext<{ productId:
         return {
             props: {
                 prod,
-            },
-            revalidate: 120, // In seconds
+            }
         }
     }
     console.log("An error occured");

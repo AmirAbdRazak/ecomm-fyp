@@ -1,6 +1,7 @@
 import { Dispatch, Fragment, SetStateAction, useEffect, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import Link from 'next/link';
+import { NextRouter, useRouter } from 'next/router'
 
 type getCartRes = {
     id: string
@@ -19,20 +20,30 @@ const removeItem = (order_id: string, setRender: Dispatch<SetStateAction<boolean
 
 }
 
-const checkoutCart = (orders: getCartRes[], setRender: Dispatch<SetStateAction<boolean>>) => {
+const checkoutCart = (orders: getCartRes[], setRender: Dispatch<SetStateAction<boolean>>, invRef: string, router: NextRouter) => {
     const order_list = orders.map(order => order.id);
+
 
     fetch('/api/checkout', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ order_list: order_list })
-    }).then(res => { setRender(true) });
+        body: JSON.stringify({ order_list: order_list, invRef: invRef }),
+    }).then(res => {
+        setRender(true);
+        return res.json();
+    }).then(data => {
+        console.log(data)
+        return router.push(`/invoice/${data.invoice.id}`);
+    })
 
 }
 
 const CartDialog = ({ prods, setOpen, setRender }: { prods: getCartRes[], setOpen: Dispatch<SetStateAction<boolean>>, setRender: Dispatch<SetStateAction<boolean>> }) => {
+    const [invRef, setInvRef] = useState<string>("");
+    const router = useRouter();
+
     return (
         <div className="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
             <div className="flex-1 overflow-y-auto py-6 px-4 sm:px-6">
@@ -103,11 +114,16 @@ const CartDialog = ({ prods, setOpen, setRender }: { prods: getCartRes[], setOpe
                 <p className="mt-0.5 text-sm text-gray-500">Shipping and taxes calculated at checkout.</p>
                 <div className="mt-6">
                     <button
-                        onClick={() => checkoutCart(prods, setRender)}
+                        onClick={() => checkoutCart(prods, setRender, invRef, router)}
                         className="flex items-center mx-auto w-full justify-center rounded-md border border-transparent bg-rose-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-rose-700"
                     >
                         Checkout
                     </button>
+                </div>
+                <div className="mt-4">
+                    <label className="text-sm text-gray-500">Inv. Ref: </label>
+                    <input type="text" className="text-sm text-gray-500 border rounded-md" value={invRef}
+                        onChange={(e) => setInvRef(e.target.value)}></input>
                 </div>
                 <div className="mt-6 flex justify-center text-center text-sm text-gray-500">
                     <p>
