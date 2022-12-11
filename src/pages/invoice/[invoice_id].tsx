@@ -15,7 +15,7 @@ const InvoiceRow = ({ item }: { item: itemType }) => {
                 {item.name.length > 100 ? item.name.substring(0, 100) + "..." : item.name}
             </td>
             <td className="py-4 pl-3 pr-4 text-sm text-left text-slate-500 sm:pr-6 md:pr-0">
-                ${item.price}
+                ${item.price == "Out of Stock" || item.price == "0.0" ? "4.99" : item.price}
             </td>
         </tr>
     )
