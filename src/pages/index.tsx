@@ -1,4 +1,5 @@
 import type { NextPage } from "next";
+import Head from "next/head";
 import Link from "next/link";
 import { trpc } from "../utils/trpc";
 
@@ -102,8 +103,21 @@ const Cards = ({ title, price, rating, imageURL }: { title: string, price: numbe
 
 const Home: NextPage = () => {
 
+
     return (
         <>
+            <Head>
+                <title>Cool Title</title>
+                <meta name="description" content="This website is powered by AI and has data analytics, made by Muhammad Amir for his Final Year Project" key="desc" />
+                <meta property="og:title" content="AI Driven E-Commerce" />
+                <meta
+                    property="og:description"
+                    content="This website is powered by AI and has data analytics, made by Muhammad Amir for his Final Year Project" />
+                <meta
+                    property="og:image"
+                    content="https://www.easyuni.my/media/uploads/2022/04/20/msu-logo-facebook-resized.jpg"
+                />
+            </Head>
             <HeroSection />
 
             <section className="bg-gray-100">
