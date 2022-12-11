@@ -3,8 +3,8 @@ import React, { Dispatch, SetStateAction, useEffect, useState } from 'react'
 
 const NavItem = ({ title, isFocus = false }: { title: string, isFocus?: boolean }) => {
   return (
-    <li>
-      <Link className={`block px-4 text-lg ${!isFocus && 'font-light'} ${isFocus && 'text-rose-600'}`} href={title == "Home" ? "/" : "/" + title.toLowerCase()}>{title}</Link>
+    <li className={`block px-4 text-lg ${!isFocus && 'font-light'} ${isFocus && 'text-rose-600'}`}>
+      <Link href={title == "Home" ? "/" : "/" + title.toLowerCase()}>{title}</Link>
     </li>
   )
 }
@@ -49,13 +49,17 @@ const NavBar = ({ setOpen }: { setOpen: Dispatch<SetStateAction<boolean>> }) => 
     <>
       <header className={`fixed w-full transition duration-500 ease-out t-0 l-0 z-[20] drop-shadow bg-white ${opacity}`}>
         <div className={`container flex flex-wrap items-center mx-10 py-5`}>
-          <a href="#" className="flex items-center text-xl tracking-wider justify"><p className="text-black">IREX</p><p className="text-rose-600">MSU</p></a>
+          <Link href="/" >
+            <div className="flex items-center text-xl tracking-wider justify">
+              <p className="text-black">IREX</p><p className="text-rose-600">MSU</p>
+            </div>
+          </Link>
           <nav className="block pl-10">
             <ul className="flex flex-row px-5 py-2">
-              <NavItem title="Home" isFocus={true} />
-              <NavItem title="Products" />
-              <NavItem title="Promotions" />
-              <NavItem title="About" />
+              <NavItem key="Home" title="Home" isFocus={true} />
+              <NavItem key="Products" title="Products" />
+              <NavItem key="Promotions" title="Promotions" />
+              <NavItem key="About" title="About" />
               <button className="btn btn-primary bg-rose-200 mx-3 px-3 rounded-md text-lg  text-rose-700" onClick={() => { setOpen(true) }} >Cart</button>
             </ul>
           </nav>
