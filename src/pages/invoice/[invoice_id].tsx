@@ -72,7 +72,8 @@ const Invoice = () => {
             .then((data) => {
                 setInvoice(data);
             });
-    }, [invoice_id]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     return (
         <>
