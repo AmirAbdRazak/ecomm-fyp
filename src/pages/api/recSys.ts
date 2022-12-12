@@ -34,7 +34,7 @@ const recSys = async (req: NextApiRequest, res: NextApiResponse) => {
     const prodFilter: [string, number][] = data.map((recs: any) =>
         Object.entries(recs).filter(([asin, value]) => {
             if (asin != "asin" && value as number > 0.65 && value != 1) {
-                return [asin, value]
+                return [asin, value as number]
             }
         })
     ).flat();
