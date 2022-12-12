@@ -1,15 +1,14 @@
-import { prisma } from "../../server/db/client";
-import type { NextApiRequest, NextApiResponse } from "next";
+import { prisma } from '../../server/db/client';
+import type { NextApiRequest, NextApiResponse } from 'next';
 
 const getInvoice = async (req: NextApiRequest, res: NextApiResponse) => {
-
     let invoice;
 
-    if (req.method === "POST") {
+    if (req.method === 'POST') {
         const { invoice_id } = req.body;
         invoice = await prisma.invoice.findFirst({
             where: {
-                id: invoice_id
+                id: invoice_id,
             },
             select: {
                 id: true,
@@ -20,8 +19,8 @@ const getInvoice = async (req: NextApiRequest, res: NextApiResponse) => {
                 customer: {
                     select: {
                         name: true,
-                        email: true
-                    }
+                        email: true,
+                    },
                 },
                 OrderHistory: {
                     select: {
@@ -32,16 +31,15 @@ const getInvoice = async (req: NextApiRequest, res: NextApiResponse) => {
                                 id: true,
                                 image_url: true,
                                 price: true,
-                            }
-                        }
-                    }
-                }
-            }
-        })
+                            },
+                        },
+                    },
+                },
+            },
+        });
     }
 
     res.status(200).json(invoice);
-
 };
 
 export default getInvoice;

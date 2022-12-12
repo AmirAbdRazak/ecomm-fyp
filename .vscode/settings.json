@@ -1,0 +1,7 @@
+{
+    "prettier.configPath": "./prettier.config.js",
+    "prettier.tabWidth": 4,
+    "prettier.useTabs": false,
+    "prettier.requireConfig": true,
+    "prettier.endOfLine": "auto"
+}
