@@ -45,8 +45,8 @@ const checkoutCart = (
             })
             .then(async (data) => {
                 setOpen(false);
-                await new Promise((r) => setTimeout(r, 750));
                 setRender(true);
+                await new Promise((r) => setTimeout(r, 900));
                 return router.push(`/invoice/${data.invoice.id}`);
             });
     }
@@ -93,7 +93,7 @@ const CartDialog = ({
                                         order.item;
                                     return (
                                         <li
-                                            key={id}
+                                            key={order.id}
                                             className="flex py-6"
                                         >
                                             <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
