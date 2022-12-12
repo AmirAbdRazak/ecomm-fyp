@@ -3,7 +3,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 
 const getInvoice = async (req: NextApiRequest, res: NextApiResponse) => {
     let invoice;
-
+    await new Promise((r) => setTimeout(r, 1000));
     if (req.method === 'POST') {
         const { invoice_id } = req.body;
         invoice = await prisma.invoice.findFirst({
