@@ -224,7 +224,7 @@ export default function Cart({
 
     useEffect(() => {
         const sleep = async () => {
-            await new Promise((r) => setTimeout(r, 500));
+            await new Promise((r) => setTimeout(r, 1000));
         };
         sleep();
         if (render) {
