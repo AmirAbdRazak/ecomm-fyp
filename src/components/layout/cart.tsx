@@ -227,6 +227,7 @@ export default function Cart({
             fetch('/api/manageCart')
                 .then((res) => res.json())
                 .then((data) => {
+                    console.log(data);
                     setProducts(data);
                 });
 
