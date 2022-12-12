@@ -33,9 +33,10 @@ const checkoutCart = (orders: getCartRes[], setRender: Dispatch<SetStateAction<b
             body: JSON.stringify({ order_list: order_list, invRef: invRef }),
         }).then(res => {
             return res.json();
-        }).then(data => {
-            setRender(true);
+        }).then(async (data) => {
             setOpen(false);
+            await new Promise(r => setTimeout(r, 750));
+            setRender(true);
             return router.push(`/invoice/${data.invoice.id}`);
         })
     }
