@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 
 const NavItem = ({
@@ -26,6 +27,9 @@ const NavBar = ({
 }: {
     setOpen: Dispatch<SetStateAction<boolean>>;
 }) => {
+    const router = useRouter();
+    const path = router?.asPath;
+    console.log(path);
     const [opacity, setOpacity] = useState('bg-opacity-0');
 
     useEffect(() => {
@@ -95,14 +99,16 @@ const NavBar = ({
                                 key="About"
                                 title="About"
                             />
-                            <button
-                                className="btn btn-primary mx-3 rounded-md bg-rose-200 px-3 text-lg  text-rose-700"
-                                onClick={() => {
-                                    setOpen(true);
-                                }}
-                            >
-                                Cart
-                            </button>
+                            {!path.includes('/invoice/') && (
+                                <button
+                                    className="btn btn-primary mx-3 rounded-md bg-rose-200 px-3 text-lg  text-rose-700"
+                                    onClick={() => {
+                                        setOpen(true);
+                                    }}
+                                >
+                                    Cart
+                                </button>
+                            )}
                         </ul>
                     </nav>
                 </div>

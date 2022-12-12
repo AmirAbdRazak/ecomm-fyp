@@ -1,5 +1,6 @@
-import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import { GetServerSidePropsContext } from 'next';
+import React from 'react';
+import { prisma } from '../../server/db/client';
 
 const InvoiceRow = ({ item }: { item: itemType }) => {
     return (
@@ -51,25 +52,7 @@ type invoiceRes = {
     }[];
 };
 
-const Invoice = () => {
-    const [invoiceList, setInvoice] = useState<invoiceRes>();
-    const router = useRouter();
-    const { invoice_id } = router.query;
-
-    useEffect(() => {
-        fetch('/api/getInvoice', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ invoice_id: invoice_id }),
-        })
-            .then((res) => res.json())
-            .then((data) => {
-                setInvoice(data);
-            });
-    }, [invoice_id]);
-
+const Invoice = ({ invoiceList }: { invoiceList: invoiceRes }) => {
     return (
         <>
             <section className="py-5">
@@ -237,5 +220,50 @@ const Invoice = () => {
         </>
     );
 };
+
+export async function getServerSideProps(
+    context: GetServerSidePropsContext<{ invoice_id: string }>
+) {
+    if (context.params) {
+        await new Promise((r) => setTimeout(r, 1500));
+        const { invoice_id } = context.params;
+
+        const invoiceList = await prisma.invoice.findFirst({
+            where: {
+                id: invoice_id,
+            },
+            select: {
+                id: true,
+                paymentType: true,
+                amount: true,
+                invoice_ref: true,
+                customer: {
+                    select: {
+                        name: true,
+                        email: true,
+                    },
+                },
+                OrderHistory: {
+                    select: {
+                        id: true,
+                        item: {
+                            select: {
+                                name: true,
+                                id: true,
+                                image_url: true,
+                                price: true,
+                            },
+                        },
+                    },
+                },
+            },
+        });
+        return {
+            props: {
+                invoiceList,
+            },
+        };
+    }
+}
 
 export default Invoice;
