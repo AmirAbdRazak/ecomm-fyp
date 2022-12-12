@@ -46,7 +46,7 @@ const checkoutCart = (
             .then(async (data) => {
                 setOpen(false);
                 setRender(true);
-                await new Promise((r) => setTimeout(r, 900));
+                await new Promise((r) => setTimeout(r, 2000));
                 return router.push(`/invoice/${data.invoice.id}`);
             });
     }
