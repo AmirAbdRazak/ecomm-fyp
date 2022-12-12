@@ -46,7 +46,7 @@ const checkoutCart = (
             .then(async (data) => {
                 setOpen(false);
                 setRender(true);
-                router.push(`/invoice/${data.invoice.id}`);
+                return router.push(`/invoice/${data.invoice.id}`);
             });
     }
 };
@@ -223,6 +223,10 @@ export default function Cart({
     const [products, setProducts] = useState<getCartRes[]>();
 
     useEffect(() => {
+        const sleep = async () => {
+            await new Promise((r) => setTimeout(r, 500));
+        };
+        sleep();
         if (render) {
             fetch('/api/manageCart')
                 .then((res) => res.json())

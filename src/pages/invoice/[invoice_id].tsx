@@ -57,6 +57,10 @@ const Invoice = () => {
     const { invoice_id } = router.query;
 
     useEffect(() => {
+        const sleep = async () => {
+            await new Promise((r) => setTimeout(r, 500));
+        };
+        sleep();
         fetch('/api/getInvoice', {
             method: 'POST',
             headers: {
