@@ -31,10 +31,10 @@ const recSys = async (req: NextApiRequest, res: NextApiResponse) => {
         .select('*')
         .in('asin', prevOrders);
 
-    const prodFilter: [string, number][] = data.map((recs: any) =>
+    const prodFilter: [string, number][] = data.map((recs: number) =>
         Object.entries(recs).filter(([asin, value]) => {
-            if (asin != "asin" && value as number > 0.65 && value != 1) {
-                return [asin, value as number]
+            if (asin != "asin" && value > 0.65 && value != 1) {
+                return [asin, value]
             }
         })
     ).flat();
