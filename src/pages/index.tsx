@@ -224,7 +224,7 @@ const Home: NextPage = () => {
     return (
         <>
             <Head>
-                <title>Cool Title</title>
+                <title>MSU AI E-Commerce</title>
                 <meta
                     name="description"
                     content="This website is powered by AI and has data analytics, made by Muhammad Amir for his Final Year Project"
