@@ -142,7 +142,7 @@ const Cards = ({
                     alt="product image"
                 />
             </Link>
-            <div className="px-5 pb-5">
+            <div className="px-5 py-5">
                 <a href="#">
                     <h5 className="text-lg font-semibold tracking-tight text-gray-900">
                         {title.length > 35
@@ -150,21 +150,20 @@ const Cards = ({
                             : title}
                     </h5>
                 </a>
-                <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between py-4">
                     <span className="text-lg font-bold text-gray-900">
                         $
                         {price == 'Out of Stock' || price == '0.0'
                             ? '4.99'
                             : price}
                     </span>
-                    <a
-                        href="#"
+                    <p
                         className="rounded-lg bg-rose-700 px-5 py-2.5 
                         text-center text-sm font-medium text-white hover:bg-rose-800 
                         focus:outline-none focus:ring-4 focus:ring-rose-300"
                     >
-                        Add to cart
-                    </a>
+                        More details
+                    </p>
                 </div>
             </div>
         </div>
@@ -227,7 +226,7 @@ const Home: NextPage = () => {
                     </button>
                 </div>
                 <div className="grid grid-cols-4 justify-around gap-4 py-10 px-10">
-                    {recProds.splice(0, 12).map((rec) => (
+                    {recProds.splice(0, 8).map((rec) => (
                         <Cards
                             key={rec.id}
                             id={rec.id}
