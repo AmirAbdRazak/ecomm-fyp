@@ -43,10 +43,32 @@ const recSys = async (req: NextApiRequest, res: NextApiResponse) => {
         )
         .flat();
 
-    const recProds = prodFilter.map(([asin, value]) => {
+    const recUnsorted = prodFilter.map(([asin, value]) => {
         return {
             [asin]: value,
         };
+    });
+
+    const recSorted = recUnsorted
+        .sort((a: { [x: string]: number }, b: { [x: string]: number }) => {
+            const x = Object.values<number>(a)[0];
+            const y = Object.values<number>(b)[0];
+
+            return x && y ? y - x : 0;
+        })
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        .map((rec) => Object.keys(rec)[0]!);
+
+    const recProds = await prisma.item.findMany({
+        where: {
+            id: { in: recSorted },
+        },
+        select: {
+            id: true,
+            name: true,
+            price: true,
+            image_url: true,
+        },
     });
 
     res.status(200).json(recProds);

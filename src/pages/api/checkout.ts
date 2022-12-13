@@ -15,23 +15,18 @@ const checkout = async (req: NextApiRequest, res: NextApiResponse) => {
             },
         });
 
-        const orders_update = await order_list.map(async (order_id) => {
-            const orders = prisma.orderHistory.update({
-                where: {
-                    id: order_id,
-                },
-                data: {
-                    status: 'Purchased',
-                    invoice_id: createInvoice.id,
-                },
-            });
-
-            return orders;
+        await prisma.orderHistory.updateMany({
+            where: {
+                id: { in: order_list },
+            },
+            data: {
+                status: 'Purchased',
+                invoice_id: createInvoice.id,
+            },
         });
 
         const sendRes = {
             invoice: createInvoice,
-            order_list: orders_update,
         };
 
         res.status(200).json(sendRes);
