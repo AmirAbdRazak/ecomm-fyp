@@ -30,7 +30,7 @@ const HeroSection = () => {
                             Leaving: "duration-100 ease-in"
                             From: "opacity-100 scale-100"
                             To: "opacity-0 scale-95" */}
-                        <div className="absolute inset-x-0 top-0 z-10 origin-top-right transform p-2 transition md:hidden">
+                        <div className="absolute inset-x-0 top-0 z-10 hidden origin-top-right transform p-2 transition md:hidden">
                             <div className="overflow-hidden rounded-lg bg-white shadow-md ring-1 ring-black ring-opacity-5">
                                 <div className="flex items-center justify-between px-5 pt-4">
                                     <div>
@@ -101,7 +101,7 @@ const HeroSection = () => {
                                         Promotions
                                     </a>
                                 </div>
-                                <div className=":sm:ml-3 mt-3 px-4 sm:mt-0">
+                                <div className="mt-3 pr-4 sm:mt-0 sm:flex md:px-4">
                                     <p className="flex w-full items-center justify-center rounded-md border border-transparent bg-rose-100 px-8 py-3 text-base font-medium text-rose-700 hover:bg-rose-200 md:py-4 md:px-10 md:text-lg">
                                         <Link href="/products">Products</Link>
                                     </p>
@@ -217,7 +217,7 @@ const Home: NextPage = () => {
             <HeroSection />
 
             <section className="bg-gray-100">
-                <div className="flex flex-row items-center space-x-5 pt-10 pl-10">
+                <div className="flex flex-row items-center space-x-5 pr-4 pt-10 pl-10 md:pr-0">
                     <h1 className="text-3xl font-semibold">
                         Recommended Products
                     </h1>
@@ -225,7 +225,7 @@ const Home: NextPage = () => {
                         See More
                     </button>
                 </div>
-                <div className="grid grid-cols-4 justify-around gap-4 py-10 px-10">
+                <div className="grid grid-cols-1 justify-around gap-4 py-10 px-10 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                     {recProds.splice(0, 8).map((rec) => (
                         <Cards
                             key={rec.id}

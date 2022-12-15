@@ -5,16 +5,16 @@ import { prisma } from '../../server/db/client';
 const InvoiceRow = ({ item }: { item: itemType }) => {
     return (
         <tr className="border-b border-slate-200">
-            <td className="hidden h-20 w-20 px-3 py-4 text-right text-sm text-slate-500 sm:table-cell">
+            <td className="hidden h-20 w-20 px-3 py-4 text-right text-sm text-slate-500 md:table-cell">
                 <img
                     src={item.image_url}
                     alt={item.name}
                 />
             </td>
-            <td className="hidden px-3 py-4 text-left text-sm text-slate-500 sm:table-cell">
+            <td className="hidden px-3 py-4 text-left text-sm text-slate-500 md:table-cell">
                 {item.id}
             </td>
-            <td className="hidden px-3 py-4 text-left text-sm text-slate-500 sm:table-cell">
+            <td className="table-cell px-3 py-4 text-left text-sm text-slate-500">
                 {item.name.length > 100
                     ? item.name.substring(0, 100) + '...'
                     : item.name}
@@ -67,7 +67,7 @@ const Invoice = ({ invoiceList }: { invoiceList: invoiceRes }) => {
                                 </div>
                             </div>
                             <div className="px-9">
-                                <div className="flex w-full">
+                                <div className="grid w-full grid-rows-2">
                                     <div className="grid grid-cols-4">
                                         <div className="text-sm font-light text-slate-500">
                                             <p className="text-sm font-normal text-slate-700">
@@ -76,7 +76,7 @@ const Invoice = ({ invoiceList }: { invoiceList: invoiceRes }) => {
                                             <p>{invoiceList?.customer.name}</p>
                                             <p>{invoiceList?.customer.email}</p>
                                         </div>
-                                        <div className="text-sm font-light text-slate-500">
+                                        <div className="hidden text-sm font-light text-slate-500 md:block">
                                             <p className="text-sm font-normal text-slate-700">
                                                 Invoice ID
                                             </p>
@@ -89,6 +89,12 @@ const Invoice = ({ invoiceList }: { invoiceList: invoiceRes }) => {
                                             <p>{invoiceList?.invoice_ref}</p>
                                         </div>
                                     </div>
+                                    <div className="block pt-4 text-sm font-light text-slate-500 md:hidden">
+                                        <p className="text-sm font-normal text-slate-700">
+                                            Invoice ID
+                                        </p>
+                                        <p>{invoiceList?.id}</p>
+                                    </div>
                                 </div>
                             </div>
                             <div className="p-9">
@@ -98,19 +104,19 @@ const Invoice = ({ invoiceList }: { invoiceList: invoiceRes }) => {
                                             <tr>
                                                 <th
                                                     scope="col"
-                                                    className="py-3.5 pl-4 pr-5 text-left text-sm font-normal text-slate-700 sm:pl-6 md:pl-0"
+                                                    className="hidden py-3.5 pl-4 pr-5 text-left text-sm font-normal text-slate-700 sm:pl-6 md:pl-0"
                                                 >
                                                     Product Preview
                                                 </th>
                                                 <th
                                                     scope="col"
-                                                    className="hidden py-3.5 px-3 text-left text-sm font-normal text-slate-700 sm:table-cell"
+                                                    className="hidden py-3.5 px-3 text-left text-sm font-normal text-slate-700 md:table-cell"
                                                 >
                                                     Product Id
                                                 </th>
                                                 <th
                                                     scope="col"
-                                                    className="hidden py-3.5 px-3 text-left text-sm font-normal text-slate-700 sm:table-cell"
+                                                    className="py-3.5 px-3 text-left text-sm font-normal text-slate-700 sm:table-cell"
                                                 >
                                                     Product Name
                                                 </th>

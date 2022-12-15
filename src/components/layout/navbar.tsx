@@ -11,9 +11,9 @@ const NavItem = ({
 }) => {
     return (
         <li
-            className={`block px-4 text-lg ${!isFocus && 'font-light'} ${
-                isFocus && 'text-rose-600'
-            }`}
+            className={`hidden px-4 text-lg md:block ${
+                !isFocus && 'font-light'
+            } ${isFocus && 'text-rose-600'}`}
         >
             <Link href={title == 'Home' ? '/' : '/' + title.toLowerCase()}>
                 {title}
@@ -69,10 +69,10 @@ const NavBar = ({
     return (
         <>
             <header
-                className={`t-0 l-0 fixed z-[20] w-full bg-white drop-shadow transition duration-500 ease-out ${opacity}`}
+                className={`t-0 l-0 fixed z-[20] w-full bg-white drop-shadow transition duration-500 ease-out ${opacity} `}
             >
                 <div
-                    className={`container mx-10 flex flex-wrap items-center py-5`}
+                    className={`container mx-5 flex flex-wrap items-center py-5 md:mx-10`}
                 >
                     <Link href="/">
                         <div className="justify flex items-center text-xl tracking-wider">
@@ -80,7 +80,7 @@ const NavBar = ({
                             <p className="text-rose-600">MSU</p>
                         </div>
                     </Link>
-                    <nav className="block pl-10">
+                    <nav className="block">
                         <ul className="flex flex-row px-5 py-2">
                             <NavItem
                                 key="Home"
@@ -101,7 +101,7 @@ const NavBar = ({
                             />
                             {!path.includes('/invoice/') && (
                                 <button
-                                    className="btn btn-primary mx-3 rounded-md bg-rose-200 px-3 text-lg  text-rose-700"
+                                    className="btn btn-primary mx-3 block rounded-md bg-rose-200 px-3 text-lg text-rose-700"
                                     onClick={() => {
                                         setOpen(true);
                                     }}
