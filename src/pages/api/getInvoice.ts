@@ -39,7 +39,11 @@ const getInvoice = async (req: NextApiRequest, res: NextApiResponse) => {
         });
     }
 
-    res.status(200).json(invoice);
+    res.status(200).json({
+        invoice: invoice,
+        warning:
+            'Invoice is deprecated for now until React Query is implemented, we are currently using Server Side Rendering in the meanwhile',
+    });
 };
 
 export default getInvoice;
