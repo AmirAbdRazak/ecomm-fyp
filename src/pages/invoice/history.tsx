@@ -1,4 +1,5 @@
 import { NextApiResponse } from 'next';
+import Link from 'next/link';
 import React from 'react';
 import { prisma } from '../../server/db/client';
 
@@ -54,64 +55,66 @@ type invoiceRes = {
 
 const InvoiceItem = ({ invoiceList }: { invoiceList: invoiceRes }) => {
     return (
-        <div className="mx-20 my-10 rounded-lg border py-10 pb-20 shadow-md">
-            <div className="mx-5 grid grid-cols-2 px-10 py-10">
-                <div className="hidden text-sm font-light text-slate-500 md:block">
-                    <p className="text-sm font-normal text-slate-700">
-                        Invoice ID:
-                    </p>
-                    <p>{invoiceList?.id}</p>
+        <Link href={`/invoice/${invoiceList.id}`}>
+            <div className="mx-10 my-10 rounded-lg border py-10 pb-20 shadow-sm hover:shadow-lg md:mx-20">
+                <div className="mx-5 grid grid-cols-2 px-10 py-10">
+                    <div className="text-sm font-light text-slate-500">
+                        <p className="text-sm font-normal text-slate-700">
+                            Invoice ID:
+                        </p>
+                        <p>{invoiceList?.id}</p>
+                    </div>
+                    <div className="hidden pl-10 text-sm font-light text-slate-500 md:block">
+                        <p className="text-sm font-normal text-slate-700">
+                            Invoice Reference:
+                        </p>
+                        <p>{invoiceList?.invoice_ref}</p>
+                    </div>
                 </div>
-                <div className="pl-10 text-sm font-light text-slate-500">
-                    <p className="text-sm font-normal text-slate-700">
-                        Invoice Reference:
-                    </p>
-                    <p>{invoiceList?.invoice_ref}</p>
+                <div className="mx-5 border-b px-9">
+                    <div className="mx-0 mt-8 flex flex-col">
+                        <table className="min-w-full divide-y divide-slate-500">
+                            <thead>
+                                <tr>
+                                    <th
+                                        scope="col"
+                                        className="hidden py-3.5 pl-4 pr-5 text-left text-sm font-normal text-slate-700 sm:pl-6 md:pl-0"
+                                    >
+                                        Product Preview
+                                    </th>
+                                    <th
+                                        scope="col"
+                                        className="hidden py-3.5 px-3 text-left text-sm font-normal text-slate-700 md:table-cell"
+                                    >
+                                        Product Id
+                                    </th>
+                                    <th
+                                        scope="col"
+                                        className="py-3.5 px-3 text-left text-sm font-normal text-slate-700 sm:table-cell"
+                                    >
+                                        Product Name
+                                    </th>
+                                    <th
+                                        scope="col"
+                                        className="py-3.5 pl-3 pr-4 text-left text-sm font-normal text-slate-700 sm:pr-6 md:pr-0"
+                                    >
+                                        Price
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {invoiceList?.OrderHistory.map((order) => (
+                                    <InvoiceRow
+                                        key={order.id}
+                                        item={order.item}
+                                    />
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
-            <div className="mx-5 border-b px-9">
-                <div className="mx-0 mt-8 flex flex-col">
-                    <table className="min-w-full divide-y divide-slate-500">
-                        <thead>
-                            <tr>
-                                <th
-                                    scope="col"
-                                    className="hidden py-3.5 pl-4 pr-5 text-left text-sm font-normal text-slate-700 sm:pl-6 md:pl-0"
-                                >
-                                    Product Preview
-                                </th>
-                                <th
-                                    scope="col"
-                                    className="hidden py-3.5 px-3 text-left text-sm font-normal text-slate-700 md:table-cell"
-                                >
-                                    Product Id
-                                </th>
-                                <th
-                                    scope="col"
-                                    className="py-3.5 px-3 text-left text-sm font-normal text-slate-700 sm:table-cell"
-                                >
-                                    Product Name
-                                </th>
-                                <th
-                                    scope="col"
-                                    className="py-3.5 pl-3 pr-4 text-left text-sm font-normal text-slate-700 sm:pr-6 md:pr-0"
-                                >
-                                    Price
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {invoiceList?.OrderHistory.map((order) => (
-                                <InvoiceRow
-                                    key={order.id}
-                                    item={order.item}
-                                />
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
+        </Link>
     );
 };
 
