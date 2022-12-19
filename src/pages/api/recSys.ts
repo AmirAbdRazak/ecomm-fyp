@@ -45,17 +45,18 @@ const recSys = async (req: NextApiRequest, res: NextApiResponse) => {
         )
         .flat();
 
+    console.log(prodFilter);
+
     const recSorted = prodFilter
         .sort((a, b) => {
-            const x = Object.values(a)[0];
-            const y = Object.values(b)[0];
-
+            const x = Object.values(a)[1];
+            const y = Object.values(b)[1];
             return x && y && typeof y === 'number' && typeof x === 'number'
                 ? y - x
                 : 0;
         })
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        .map((rec) => Object.keys(rec)[0]!);
+        .map((rec) => rec[0]);
 
     const recProds = await prisma.item.findMany({
         where: {
