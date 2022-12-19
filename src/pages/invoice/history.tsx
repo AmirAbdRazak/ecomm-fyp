@@ -138,7 +138,7 @@ const InvoiceHistory = ({
                             </div>
                             <div>
                                 {invoiceHistory &&
-                                    invoiceHistory.map(
+                                    invoiceHistory.reverse().map(
                                         (invoiceList) =>
                                             invoiceList.OrderHistory.length >
                                                 0 && (
