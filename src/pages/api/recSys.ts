@@ -37,24 +37,22 @@ const recSys = async (req: NextApiRequest, res: NextApiResponse) => {
         .map((recs: number) =>
             Object.entries(recs).filter(([asin, value]: [string, number]) => {
                 if (asin != 'asin' && value > 0.65 && value != 1) {
-                    return [asin, value];
+                    return {
+                        [asin]: value,
+                    };
                 }
             })
         )
         .flat();
 
-    const recUnsorted = prodFilter.map(([asin, value]) => {
-        return {
-            [asin]: value,
-        };
-    });
+    const recSorted = prodFilter
+        .sort((a, b) => {
+            const x = Object.values(a)[0];
+            const y = Object.values(b)[0];
 
-    const recSorted = recUnsorted
-        .sort((a: { [x: string]: number }, b: { [x: string]: number }) => {
-            const x = Object.values<number>(a)[0];
-            const y = Object.values<number>(b)[0];
-
-            return x && y ? y - x : 0;
+            return x && y && typeof y === 'number' && typeof x === 'number'
+                ? y - x
+                : 0;
         })
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         .map((rec) => Object.keys(rec)[0]!);
