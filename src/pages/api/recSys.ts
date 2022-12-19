@@ -22,10 +22,11 @@ const recSys = async (req: NextApiRequest, res: NextApiResponse) => {
     });
 
     // Grabs the invoiceRes and parses it into a list of 10 most recent product purchases
-    const prevOrders = invoiceRes
+    const dupeOrder = invoiceRes
         .map((inv) => inv.OrderHistory.map((order) => order.item_id))
-        .flat()
-        .splice(0, 10);
+        .flat();
+
+    const prevOrders = [...new Set(dupeOrder)].splice(0, 10);
 
     const { data } = await supabase
         .from('Recsys')
