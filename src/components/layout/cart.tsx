@@ -182,11 +182,11 @@ const CartDialog = ({
                         Checkout
                     </button>
                 </div>
-                <div className="mt-4">
+                <div className="mt-4 flex space-x-2">
                     <label className="text-sm text-gray-500">Inv. Ref: </label>
                     <input
                         type="text"
-                        className="rounded-md border text-sm text-gray-500"
+                        className="rounded-md border px-2 text-sm text-gray-500"
                         value={invRef}
                         onChange={(e) => setInvRef(e.target.value)}
                     ></input>

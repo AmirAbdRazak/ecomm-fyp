@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
+import FilterSideBar from '../components/layout/filterSideBar';
 
 const Product = ({ product }: { product: recSysRes }) => {
     return (
@@ -52,6 +53,9 @@ const ProductList = ({ products }: { products: recSysRes[] }) => {
 
 const Products = () => {
     const [recProds, setRecs] = useState<recSysRes[]>([]);
+    const [searchVal, setSearchVal] = useState('');
+    const [minPrice, setMinPrice] = useState<number>(0);
+    const [maxPrice, setMaxPrice] = useState<number>(9999);
 
     useEffect(() => {
         fetch('/api/recSys', {
@@ -68,17 +72,10 @@ const Products = () => {
     return (
         <>
             <div className="flex-column flex">
-                <div className="z-0 w-56 pt-20 pl-10">
-                    <div className="flex flex-row justify-between py-2">
-                        <div className="text-md">Electronics</div>
-                        <div>
-                            <input
-                                type="checkbox"
-                                className="checkbox justify-end"
-                            />
-                        </div>
-                    </div>
-                </div>
+                <FilterSideBar
+                    searchFilter={[searchVal, setSearchVal]}
+                    priceFilter={[minPrice, setMinPrice, maxPrice, setMaxPrice]}
+                />
                 <div>
                     <ProductList products={recProds} />
                 </div>

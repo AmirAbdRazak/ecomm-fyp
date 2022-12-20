@@ -1,5 +1,6 @@
 import Link from 'next/link';
-import React from 'react';
+import React, { useState } from 'react';
+import FilterSideBar from '../../components/layout/filterSideBar';
 import { prisma } from '../../server/db/client';
 
 const Product = ({ product }: { product: product }) => {
@@ -30,7 +31,24 @@ const Product = ({ product }: { product: product }) => {
     );
 };
 
-const ProductList = ({ products }: { products: product[] }) => {
+const ProductList = ({
+    products,
+    searchValue,
+    priceFilter: [minPrice, maxPrice],
+}: {
+    products: product[];
+    searchValue: string;
+    priceFilter: [number, number];
+}) => {
+    const searchChecker = (title: string, price: number): boolean => {
+        const parsedProd = title.toLowerCase().replace(/-|_/g, ' ');
+        const parsedSearch = searchValue.toLowerCase().replace(/-|_/g, ' ');
+        const search = parsedProd.includes(parsedSearch);
+
+        const priceRange = price > minPrice && price < maxPrice;
+
+        return search && priceRange;
+    };
     return (
         <div className="bg-white">
             <div className="mx-auto max-w-2xl py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
@@ -39,10 +57,15 @@ const ProductList = ({ products }: { products: product[] }) => {
                 <div className="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
                     {products.map((prod) => {
                         return (
-                            <Product
-                                key={prod.id}
-                                product={prod}
-                            />
+                            searchChecker(
+                                prod.name,
+                                parseFloat(prod.price)
+                            ) && (
+                                <Product
+                                    key={prod.id}
+                                    product={prod}
+                                />
+                            )
                         );
                     })}
                 </div>
@@ -52,22 +75,22 @@ const ProductList = ({ products }: { products: product[] }) => {
 };
 
 const Products = ({ products }: { products: product[] }) => {
+    const [searchVal, setSearchVal] = useState('');
+    const [minPrice, setMinPrice] = useState<number>(0);
+    const [maxPrice, setMaxPrice] = useState<number>(9999);
     return (
         <>
             <div className="flex-column flex">
-                <div className="z-0 w-56 pt-20 pl-10">
-                    <div className="flex flex-row justify-between py-2">
-                        <div className="text-md">Electronics</div>
-                        <div>
-                            <input
-                                type="checkbox"
-                                className="checkbox justify-end"
-                            />
-                        </div>
-                    </div>
-                </div>
+                <FilterSideBar
+                    searchFilter={[searchVal, setSearchVal]}
+                    priceFilter={[minPrice, setMinPrice, maxPrice, setMaxPrice]}
+                />
                 <div>
-                    <ProductList products={products} />
+                    <ProductList
+                        products={products}
+                        searchValue={searchVal}
+                        priceFilter={[minPrice, maxPrice]}
+                    />
                 </div>
             </div>
         </>

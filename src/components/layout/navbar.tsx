@@ -15,7 +15,15 @@ const NavItem = ({
                 !isFocus && 'font-light'
             } ${isFocus && 'text-rose-600'}`}
         >
-            <Link href={title == 'Home' ? '/' : '/' + title.toLowerCase()}>
+            <Link
+                href={
+                    title == 'Home'
+                        ? '/'
+                        : title == 'History'
+                        ? '/invoice/history'
+                        : '/' + title.toLowerCase()
+                }
+            >
                 {title}
             </Link>
         </li>
@@ -92,12 +100,12 @@ const NavBar = ({
                                 title="Products"
                             />
                             <NavItem
-                                key="Promotions"
-                                title="Promotions"
+                                key="Recommendations"
+                                title="Recommendations"
                             />
                             <NavItem
-                                key="About"
-                                title="About"
+                                key="History"
+                                title="History"
                             />
                             {!path.includes('/invoice/') && (
                                 <button

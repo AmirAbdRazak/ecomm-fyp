@@ -13,3 +13,11 @@ type recSysRes = {
     image_url: string;
     price: string;
 };
+
+type searchFilterType = [string, Dispatch<SetStateAction<string>>];
+type priceFilterType = [
+    number,
+    Dispatch<SetStateAction<number>>,
+    number,
+    Dispatch<SetStateAction<number>>
+];
