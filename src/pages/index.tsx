@@ -170,15 +170,8 @@ const Cards = ({
     );
 };
 
-type recSysRes = {
-    id: string;
-    name: string;
-    image_url: string;
-    price: string;
-}[];
-
 const Home: NextPage = () => {
-    const [recProds, setRecs] = useState<recSysRes>([]);
+    const [recProds, setRecs] = useState<recSysRes[]>([]);
 
     useEffect(() => {
         fetch('/api/recSys', {
@@ -187,7 +180,7 @@ const Home: NextPage = () => {
             },
         })
             .then((res) => res.json())
-            .then((data: recSysRes) => {
+            .then((data: recSysRes[]) => {
                 setRecs(data);
             });
     }, []);

@@ -6,3 +6,10 @@ type product = {
     name: string;
     price: string;
 };
+
+type recSysRes = {
+    id: string;
+    name: string;
+    image_url: string;
+    price: string;
+};

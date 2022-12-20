@@ -46,8 +46,6 @@ const recSys = async (req: NextApiRequest, res: NextApiResponse) => {
         )
         .flat();
 
-    console.log(prodFilter);
-
     const recSorted = prodFilter
         .sort((a, b) => {
             const x = Object.values(a)[1];
