@@ -1,4 +1,5 @@
-# This is an AI powered E-Commerce for my Final Year Project
+# AI Powered E-Commerce
+
 
 
 -AI Calculation, stored in Supabase
