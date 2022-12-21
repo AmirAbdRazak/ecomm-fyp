@@ -169,7 +169,6 @@ const Cards = ({
         </Link>
     );
 };
-
 const Home: NextPage = () => {
     const [recProds, setRecs] = useState<recSysRes[]>([]);
 
@@ -219,15 +218,20 @@ const Home: NextPage = () => {
                     </button>
                 </div>
                 <div className="grid grid-cols-1 justify-around gap-4 py-10 px-10 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                    {recProds.splice(0, 8).map((rec) => (
-                        <Cards
-                            key={rec.id}
-                            id={rec.id}
-                            title={rec.name}
-                            price={rec.price}
-                            imageURL={rec.image_url}
-                        />
-                    ))}
+                    {recProds
+                        .map((value) => ({ value, sort: Math.random() }))
+                        .sort((a, b) => a.sort - b.sort)
+                        .map(({ value }) => value)
+                        .splice(0, 8)
+                        .map((rec) => (
+                            <Cards
+                                key={rec.id}
+                                id={rec.id}
+                                title={rec.name}
+                                price={rec.price}
+                                imageURL={rec.image_url}
+                            />
+                        ))}
                 </div>
             </section>
         </>
