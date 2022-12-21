@@ -22,16 +22,15 @@ const recSys = async (req: NextApiRequest, res: NextApiResponse) => {
     });
 
     // Grabs the invoiceRes and parses it into a list of 10 most recent product purchases
-    const dupeOrder = invoiceRes
+    const prevOrders = invoiceRes
         .map((inv) => inv.OrderHistory.map((order) => order.item_id))
         .flat();
 
-    const prevOrders = [...new Set(dupeOrder)].splice(0, 10);
-
-    const { data } = await supabase
+    const { data, error } = await supabase
         .from('Recsys')
         .select('*')
         .in('asin', prevOrders);
+    console.log(error);
 
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const prodFilter: [string, number][] = data!
@@ -45,6 +44,8 @@ const recSys = async (req: NextApiRequest, res: NextApiResponse) => {
             })
         )
         .flat();
+
+    console.log(prodFilter);
 
     const recSorted = prodFilter
         .sort((a, b) => {
