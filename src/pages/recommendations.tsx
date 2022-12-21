@@ -30,7 +30,24 @@ const Product = ({ product }: { product: recSysRes }) => {
     );
 };
 
-const ProductList = ({ products }: { products: recSysRes[] }) => {
+const ProductList = ({
+    products,
+    searchValue,
+    priceFilter: [minPrice, maxPrice],
+}: {
+    products: recSysRes[];
+    searchValue: string;
+    priceFilter: [number, number];
+}) => {
+    const searchChecker = (title: string, price: number): boolean => {
+        const parsedProd = title.toLowerCase().replace(/-|_/g, ' ');
+        const parsedSearch = searchValue.toLowerCase().replace(/-|_/g, ' ');
+        const search = parsedProd.includes(parsedSearch);
+
+        const priceRange = price > minPrice && price < maxPrice;
+
+        return search && priceRange;
+    };
     return (
         <div className="bg-white">
             <div className="mx-auto max-w-2xl py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
@@ -39,10 +56,15 @@ const ProductList = ({ products }: { products: recSysRes[] }) => {
                 <div className="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
                     {products.map((prod) => {
                         return (
-                            <Product
-                                key={prod.id}
-                                product={prod}
-                            />
+                            searchChecker(
+                                prod.name,
+                                parseFloat(prod.price)
+                            ) && (
+                                <Product
+                                    key={prod.id}
+                                    product={prod}
+                                />
+                            )
                         );
                     })}
                 </div>
@@ -77,7 +99,11 @@ const Products = () => {
                     priceFilter={[minPrice, setMinPrice, maxPrice, setMaxPrice]}
                 />
                 <div>
-                    <ProductList products={recProds} />
+                    <ProductList
+                        products={recProds}
+                        searchValue={searchVal}
+                        priceFilter={[minPrice, maxPrice]}
+                    />
                 </div>
             </div>
         </>
