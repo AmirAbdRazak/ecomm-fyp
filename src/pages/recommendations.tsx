@@ -55,11 +55,12 @@ const ProductList = ({
 
                 <div className="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
                     {products.map((prod) => {
+                        const price =
+                            prod.price == 'Out Of Stock' || prod.price == '0.0'
+                                ? '4.99'
+                                : prod.price;
                         return (
-                            searchChecker(
-                                prod.name,
-                                parseFloat(prod.price)
-                            ) && (
+                            searchChecker(prod.name, parseFloat(price)) && (
                                 <Product
                                     key={prod.id}
                                     product={prod}
