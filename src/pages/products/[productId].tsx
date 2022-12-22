@@ -3,33 +3,38 @@ import { GetStaticPropsContext } from 'next/types';
 import React, { Dispatch, SetStateAction } from 'react';
 import { prisma } from '../../server/db/client';
 
-const uploadCart = (
+const uploadCart = async (
     item_id: string,
     seller_id: string,
-    setRender: Dispatch<SetStateAction<boolean>>
+    setRender: Dispatch<SetStateAction<boolean>>,
+    setOpen: Dispatch<SetStateAction<boolean>>
 ) => {
     const obj = {
         item_id: item_id,
         seller_id: seller_id,
     };
 
-    fetch('/api/manageCart', {
+    await fetch('/api/manageCart', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify(obj),
-    }).then(() => {
-        setRender(true);
     });
+    setOpen(true);
+    setRender(true);
+    await new Promise((r) => setTimeout(r, 1500));
+    setOpen(false);
 };
 
 const Product = ({
     prod,
     setRender,
+    setOpen,
 }: {
     prod: product;
     setRender: Dispatch<SetStateAction<boolean>>;
+    setOpen: Dispatch<SetStateAction<boolean>>;
 }) => {
     return (
         <div className="bg-white">
@@ -66,7 +71,12 @@ const Product = ({
 
                     <button
                         onClick={() =>
-                            uploadCart(prod.id, prod.seller_id, setRender)
+                            uploadCart(
+                                prod.id,
+                                prod.seller_id,
+                                setRender,
+                                setOpen
+                            )
                         }
                         className="my-auto flex h-20 w-full items-center justify-center rounded-md border border-transparent bg-rose-600 py-3 px-8 text-base font-medium 
                     text-white hover:bg-rose-700 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:ring-offset-2"

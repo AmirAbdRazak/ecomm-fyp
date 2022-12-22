@@ -26,6 +26,7 @@ const MyApp: AppType = ({ Component, pageProps }) => {
             <Component
                 {...pageProps}
                 setRender={setRender}
+                setOpen={setCartState}
             />
         </>
     );
