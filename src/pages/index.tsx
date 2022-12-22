@@ -94,11 +94,10 @@ const HeroSection = () => {
                             </p>
                             <div className="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
                                 <div className="rounded-md pr-4">
-                                    <Link
-                                        href="/recommendations"
-                                        className="flex w-full items-center justify-center rounded-md border border-transparent bg-rose-600 px-8 py-3 text-base font-medium text-white hover:bg-rose-700 md:py-4 md:px-10 md:text-lg"
-                                    >
-                                        Promotions
+                                    <Link href="/recommendations">
+                                        <p className="flex w-full items-center justify-center rounded-md border border-transparent bg-rose-600 px-8 py-3 text-base font-medium text-white hover:bg-rose-700 md:py-4 md:px-10 md:text-lg">
+                                            Promotions
+                                        </p>
                                     </Link>
                                 </div>
                                 <div className="mt-3 pr-4 sm:mt-0 sm:flex md:px-4">
