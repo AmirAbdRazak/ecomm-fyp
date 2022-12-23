@@ -174,7 +174,7 @@ const Home: NextPage = () => {
     useEffect(() => {
         fetch('/api/recSys', {
             headers: {
-                // 'cache-control': 'max-age=60s',
+                'cache-control': 'max-age=60s',
             },
         })
             .then((res) => res.json())
