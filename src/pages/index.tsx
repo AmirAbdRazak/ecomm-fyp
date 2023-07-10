@@ -169,19 +169,19 @@ const Cards = ({
     );
 };
 const Home: NextPage = () => {
-    const [recProds, setRecs] = useState<recSysRes[]>([]);
+    // const [recProds, setRecs] = useState<recSysRes[]>([]);
 
-    useEffect(() => {
-        fetch('/api/recSys', {
-            headers: {
-                'cache-control': 'max-age=60s',
-            },
-        })
-            .then((res) => res.json())
-            .then((data: recSysRes[]) => {
-                setRecs(data);
-            });
-    }, []);
+    // useEffect(() => {
+    //     fetch('/api/recSys', {
+    //         headers: {
+    //             'cache-control': 'max-age=60s',
+    //         },
+    //     })
+    //         .then((res) => res.json())
+    //         .then((data: recSysRes[]) => {
+    //             setRecs(data);
+    //         });
+    // }, []);
 
     return (
         <>
@@ -210,14 +210,14 @@ const Home: NextPage = () => {
             <section className="bg-gray-100">
                 <div className="flex flex-row items-center space-x-5 pr-4 pt-10 pl-10 md:pr-0">
                     <h1 className="text-3xl font-semibold">
-                        Recommended Products
+                        Recommended Products (Recommendation service is killed)
                     </h1>
                     <button className="btn btn-primary rounded-md bg-rose-700 px-3 py-1 text-white shadow">
                         See More
                     </button>
                 </div>
-                <div className="grid grid-cols-1 justify-around gap-4 py-10 px-10 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                    {recProds
+                {/* <div className="grid grid-cols-1 justify-around gap-4 py-10 px-10 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"> */}
+                {/* {recProds
                         .map((value) => ({ value, sort: Math.random() }))
                         .sort((a, b) => a.sort - b.sort)
                         .map(({ value }) => value)
@@ -230,8 +230,8 @@ const Home: NextPage = () => {
                                 price={rec.price}
                                 imageURL={rec.image_url}
                             />
-                        ))}
-                </div>
+                        ))} */}
+                {/* </div> */}
             </section>
         </>
     );

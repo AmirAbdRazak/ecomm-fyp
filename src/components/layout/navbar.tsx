@@ -100,10 +100,6 @@ const NavBar = ({
                                 title="Products"
                             />
                             <NavItem
-                                key="Recommendations"
-                                title="Recommendations"
-                            />
-                            <NavItem
                                 key="History"
                                 title="History"
                             />
